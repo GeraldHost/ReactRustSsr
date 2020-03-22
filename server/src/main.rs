@@ -15,24 +15,22 @@ pub mod hello_world {
 }
 
 async fn handler(req: HttpRequest) -> Result<HttpResponse, Error> {
-    let mut client = match RenderClient::connect("http://[::1]:50051").await {
-        Ok(client) => client,
-        Err(err) => panic!("GRPc: Connection error"),
-    };
+    let mut client = RenderClient::connect("http://[::1]:50051")
+        .await
+        .unwrap("GRPc: Connection error");
 
     let route_path = String::from(req.match_info().path());
-
     let request = tonic::Request::new(RenderRequest {
         path: route_path
     });
-    let response = match client.render(request).await {
-        Ok(response) => response,
-        Err(err) => panic!("GRPc: Response error")
-    };
-    let html = response.into_inner().html;
 
-    Ok(HttpResponse::Ok().body(html))
-}
+    let response = client.render(request)
+        .await
+        .unwrap("GRPc: Response error")
+        .into_inner();
+
+    Ok(HttpResponse::Ok().body(response.html))
+}   
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
