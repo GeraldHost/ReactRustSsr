@@ -1,4 +1,6 @@
-FROM rust:1.31
+FROM rust:1.40
+
+RUN mkdir app
 
 WORKDIR /app
 COPY . .
