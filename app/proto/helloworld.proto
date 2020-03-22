@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package helloworld;
+
+service Render {
+  rpc render (RenderRequest) returns (RenderReply) {}
+}
+
+message RenderRequest {
+  string path = 1;
+}
+
+message RenderReply {
+  string html = 1;
+}

@@ -1,0 +1,14 @@
+[package]
+name = "reat-rust-ssr-server"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+tonic = "0.1"
+prost = "0.6"
+tokio = { version = "0.2", features = ["macros"] }
+actix-web = "2"
+actix-rt = "1"
+
+[build-dependencies]
+tonic-build = "0.1.0"
