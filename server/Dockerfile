@@ -1,10 +1,12 @@
-FROM rust:1.40
+FROM ekidd/rust-musl-builder
 
-RUN mkdir app
+ENV HOST=127.0.0.1
+ENV PORT=8080
+ENV GRPC_HOST=127.0.0.1
+ENV GRPC_PORT=50051
 
-WORKDIR /app
 COPY . .
+RUN cargo build --release
 
-RUN cargo install --path .
 
-CMD ["reat-rust-ssr-server"]
+ENTRYPOINT ["./target/x86_64-unknown-linux-musl/release/reatrustssrserver"]
